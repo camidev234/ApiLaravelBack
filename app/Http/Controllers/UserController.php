@@ -9,10 +9,25 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-   
+
     public function index()
     {
-        //
+        try {
+
+            $users = User::all();
+
+            if($users->isEmpty()) {
+                return response()->json(204);
+            }
+
+            return response()->json($users, 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'An error ocurred durign the proccess',
+                'error_message' => $e
+            ], 500);
+        }
     }
 
     public function store(CreateUserRequest $request)
