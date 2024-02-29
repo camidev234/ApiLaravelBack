@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('requisitions', function (Blueprint $table) {
             $table->id();
+            $table->string('job_description', 900);
+            $table->foreignId('job_id')->references('id')->on('jobs');
+            $table->string('justification', 900);
+            $table->string('ideal_candidate', 1500);
+            $table->string('job_mision', 500);
+            $table->string('responsabilities',1500);
+            $table->string('candidate_description', 1500);
+            $table->string('selection_criteria', 1700);
             $table->timestamps();
         });
     }
