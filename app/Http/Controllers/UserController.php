@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends Controller
 {
@@ -16,18 +19,19 @@ class UserController extends Controller
 
             $users = User::all();
 
-            if($users->isEmpty()) {
+            if ($users->isEmpty()) {
                 return response()->json([
                     "message" => "no users to show"
                 ], 204);
             }
 
             return response()->json($users, 200);
-
         } catch (\Exception $e) {
+
+            Log::error('Error displaying users: ' . $e->getMessage());
+
             return response()->json([
                 'error' => 'An error ocurred durign the proccess',
-                'error_message' => $e
             ], 500);
         }
     }
@@ -58,17 +62,29 @@ class UserController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
+            Log::error('Error creating user: ' . $e->getMessage());
+
             return response()->json([
                 'error' => 'An error ocurred durign the proccess',
-                'error_message' => $e
             ], 500);
         }
     }
 
 
-    public function show(string $id)
+    public function show(User $user)
     {
-        //
+        try {
+            return response()->json([
+                "user" => $user
+            ], 200);
+
+        } catch (\Exception $e) {
+            Log::error('Error displaying the user: ' . $e->getMessage());
+            return response()->json([
+                "error" => "An error occurred during the process",
+                "error_message" => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function update(Request $request, string $id)
