@@ -20,9 +20,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// user routes
+
+
 Route::get('/user/index', [UserController::class, 'index']);
 Route::post('/user/store', [UserController::class, 'store']);
 Route::get('/user/show/{user}', [UserController::class, 'show']);
 Route::delete('/user/destroy/{user}', [UserController::class, 'destroy']);
 
+//occupation routes
+
 Route::get('/occupation/index', [OccupationController::class, 'index']);
+Route::post('/occupation/store', [OccupationController::class, 'store']);

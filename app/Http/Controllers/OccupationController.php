@@ -12,7 +12,7 @@ class OccupationController extends Controller
         try {
             $occupations = Occupation::all();
 
-            if($occupations->isEmpty()){
+            if ($occupations->isEmpty()) {
                 return response()->json([
                     "message" => "no occupations to show"
                 ], 204);
@@ -21,8 +21,7 @@ class OccupationController extends Controller
             return response()->json([
                 'occupations' => $occupations
             ], 200);
-            
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'Error' => 'An error ocurred'
             ], 500);
@@ -32,7 +31,27 @@ class OccupationController extends Controller
 
     public function store(Request $request)
     {
-        //
+        try {
+
+            $occupation = new Occupation();
+            
+            $occupation->occupation_code = $request->input('occupation_code');
+            $occupation->occupation_name = $request->input('occupation_name');
+            $occupation->description = $request->input('description');
+
+
+            $occupation->save();
+
+            return response()->json([
+                'message' => 'Occupation created successfully',
+                'occupation' => $occupation
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'An error occurred while creating the occupation',
+                'error_message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function show(Occupation $Occupation)
