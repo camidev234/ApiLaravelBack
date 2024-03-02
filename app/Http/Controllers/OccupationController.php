@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Occupation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class OccupationController extends Controller
 {
@@ -34,7 +35,7 @@ class OccupationController extends Controller
         try {
 
             $occupation = new Occupation();
-            
+
             $occupation->occupation_code = $request->input('occupation_code');
             $occupation->occupation_name = $request->input('occupation_name');
             $occupation->description = $request->input('description');
@@ -54,9 +55,19 @@ class OccupationController extends Controller
         }
     }
 
-    public function show(Occupation $Occupation)
+    public function show(Occupation $occupation)
     {
-        //
+        try {
+            return response()->json([
+                "occupation" => $occupation
+            ], 200);
+        } catch (\Exception $e) {
+            Log::error('Error displaying the user: ' . $e->getMessage());
+            return response()->json([
+                "error" => "An error occurred during the process",
+                "error_message" => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function edit(Occupation $Occupation)

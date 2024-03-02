@@ -32,3 +32,4 @@ Route::delete('/user/destroy/{user}', [UserController::class, 'destroy']);
 
 Route::get('/occupation/index', [OccupationController::class, 'index']);
 Route::post('/occupation/store', [OccupationController::class, 'store']);
+Route::get('/occupation/show/{occupation}', [OccupationController::class, 'show']);
