@@ -80,8 +80,22 @@ class OccupationController extends Controller
         //
     }
 
-    public function destroy(Occupation $Occupation)
+    public function destroy(Occupation $occupation)
     {
-        //
+        try {
+
+            $occupation->delete();
+
+            return response()->json([
+                "success" => "User deleted"
+            ], 200);
+        } catch (\Exception $e) {
+
+            Log::error('Error deleting the user: ' . $e->getMessage());
+            return response()->json([
+                "error" => "An error occurred during the process",
+                "error_message" => $e->getMessage()
+            ], 500);
+        }
     }
 }
