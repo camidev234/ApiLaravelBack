@@ -75,7 +75,6 @@ class UserController extends Controller
             return response()->json([
                 "user" => $user
             ], 200);
-
         } catch (\Exception $e) {
             Log::error('Error displaying the user: ' . $e->getMessage());
             return response()->json([
@@ -90,8 +89,23 @@ class UserController extends Controller
         //
     }
 
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        try {
+
+            $user->delete();
+
+            return response()->json([
+                "success" => "User deleted"
+            ], 200);
+            
+        } catch (\Exception $e) {
+
+            Log::error('Error deleting the user: ' . $e->getMessage());
+            return response()->json([
+                "error" => "An error occurred during the process",
+                "error_message" => $e->getMessage()
+            ], 500);
+        }
     }
 }
