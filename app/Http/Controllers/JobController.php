@@ -29,7 +29,16 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $newJob = new Job();
+
+        $newJob->charge = $request->charge;
+        $newJob->occupation_id = $request->occupation_id;
+
+        $newJob->save();
+
+        return response()->json([
+            "exito" => "cargo creado correctamente"
+        ], 201);
     }
 
     /**

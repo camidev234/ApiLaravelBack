@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\OccupationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -22,7 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // user routes
 
-
 Route::get('/user/index', [UserController::class, 'index']);
 Route::post('/user/store', [UserController::class, 'store']);
 Route::get('/user/show/{user}', [UserController::class, 'show']);
@@ -34,3 +34,7 @@ Route::get('/occupation/index', [OccupationController::class, 'index']);
 Route::post('/occupation/store', [OccupationController::class, 'store']);
 Route::get('/occupation/show/{occupation}', [OccupationController::class, 'show']);
 Route::delete('/occupation/destroy/{occupation}', [OccupationController::class, 'destroy']);
+
+//jobs routes
+
+Route::post('/job/store', [JobController::class, 'store']);

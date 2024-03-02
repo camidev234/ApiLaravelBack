@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OccupationRequest;
 use App\Models\Occupation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -30,7 +31,7 @@ class OccupationController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(OccupationRequest $request)
     {
         try {
 
