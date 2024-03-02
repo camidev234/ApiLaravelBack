@@ -12,7 +12,23 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $roles = Role::all();
+            if($roles->isEmpty()){
+                return response()->json([
+                    "message" => "no users to show"
+                ],204);
+            }
+
+            return response()->json([
+                "roles" => $roles
+            ], 200);
+        } catch(\Exception $e) {
+            return response()->json([
+                "error" => "An error ocurred",
+                "error_message" => $e->getMessage()
+            ], 500);       
+        }
     }
 
     /**
