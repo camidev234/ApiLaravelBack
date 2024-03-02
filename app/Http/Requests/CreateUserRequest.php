@@ -29,6 +29,7 @@ class CreateUserRequest extends FormRequest
             'telephone' => 'nullable|string|max:20',
             'phone_number' => 'required|string|max:20',
             'address' => 'required|string|max:255',
+            'role_id' => 'required',
             'birthdate' => 'required|date',
             'email' => 'required|email|unique:users,email|max:255',
             'password' => 'required|string|min:8',
@@ -67,6 +68,7 @@ class CreateUserRequest extends FormRequest
             'password.required' => 'El campo contraseña es obligatorio.',
             'password.string' => 'El campo contraseña debe ser una cadena de caracteres.',
             'password.min' => 'La contraseña debe tener al menos :min caracteres.',
+            'role_id.required' => 'El rol del usuario es obligatorio'
         ];
     }
 }

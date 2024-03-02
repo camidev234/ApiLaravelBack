@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,13 +24,15 @@ class UserController extends Controller
                 ], 204);
             }
 
-            return response()->json($users, 200);
+            return response()->json([
+                'users' => UserResource::collection($users)
+            ], 200);
         } catch (\Exception $e) {
 
             Log::error('Error displaying users: ' . $e->getMessage());
 
             return response()->json([
-                'error' => 'An error ocurred durign the proccess',
+                'error' => 'An error ocurred durig the proccess',
             ], 500);
         }
     }
@@ -50,6 +53,7 @@ class UserController extends Controller
             $userCreated->address = $request->input('address');
             $userCreated->birthdate = $request->input('birthdate');
             $userCreated->email = $request->input('email');
+            $userCreated->role_id = $request->role_id;
             $userCreated->password = bcrypt($request->input('password'));
 
             $userCreated->save();
@@ -64,6 +68,7 @@ class UserController extends Controller
 
             return response()->json([
                 'error' => 'An error ocurred durign the proccess',
+                'error_message' => $e->getMessage()
             ], 500);
         }
     }
@@ -82,11 +87,6 @@ class UserController extends Controller
                 "error_message" => $e->getMessage()
             ], 500);
         }
-    }
-
-    public function update(Request $request, string $id)
-    {
-        //
     }
 
     public function destroy(User $user)
