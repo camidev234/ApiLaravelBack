@@ -78,7 +78,7 @@ class UserController extends Controller
     {
         try {
             return response()->json([
-                "user" => $user
+                "user" => new UserResource($user)
             ], 200);
         } catch (\Exception $e) {
             Log::error('Error displaying the user: ' . $e->getMessage());
